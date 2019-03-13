@@ -1,0 +1,10 @@
+nice thanks ! __eou__
+so you dont know , ok , anyone else ? __eou__ you are like , yah my mouse doesnt work , reinstall your os lolol what a joke __eou__
+just wondering how it runs __eou__
+you cant load anything via usb or cd when luks is running __eou__ it wont allow usb boot , i tried with 2 diff usb drives __eou__
+i was setting it up under the printer configuration __eou__ thanks ! __eou__
+it doesn't say __eou__ can you reformat the disk ? __eou__
+there is one that escapes me at the moment __eou__ most people use sourceforge __eou__
+You can partion the HD with gparted from the live cd , then start the installer .. perhaps . __eou__ thats how i tend to do it . __eou__ The installers partion manager tool is a bit . annoying . __eou__ I also noticed the installer did not have a ' Install to a specific drive using the whold drive ' option .. __eou__ sort of annoying it will automate other things .. but not a fairly common case of a Seperate HD Just for linux . __eou__
+I connect using the same user that I log into when I boot up . __eou__ ^^ __eou__
+I realize that .. what I am asking for is a program to help me manage the power better .. not magically generate power __eou__
