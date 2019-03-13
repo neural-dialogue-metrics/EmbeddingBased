@@ -29,7 +29,7 @@ __docformat__ = 'restructedtext en'
 __authors__ = ("Chia-Wei Liu", "Iulian Vlad Serban")
 
 from random import randint
-from gensim.models import Word2Vec
+from gensim.models import KeyedVectors
 import numpy as np
 import argparse
 
@@ -186,7 +186,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     print("loading embeddings file...")
-    w2v = Word2Vec.load_word2vec_format(args.embeddings, binary=True)
+    w2v = KeyedVectors.load_word2vec_format(args.embeddings, binary=True)
 
     r = average(args.ground_truth, args.predicted, w2v)
     print("Embedding Average Score: %f +/- %f ( %f )" % (r[0], r[1], r[2]))

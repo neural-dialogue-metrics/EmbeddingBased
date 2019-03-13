@@ -53,6 +53,15 @@ You can install these deps with conda:
 The script assumes one example per line (e.g. one dialogue or one sentence per line), 
 where line n in `'path_to_ground_truth.txt'` matches that of line n in `'path_to_predictions.txt'`.
 
+# Recommended Word Embedding
+The word embedding you are recommended to use is the *Word2Vec* vectors trained on the *Google News Corpus*.
+This is also recommended by the original repository. To download this pre-trained embedding easily, here are some useful links:
+- [word2vec Google News model](https://github.com/mmihaltz/word2vec-GoogleNews-vectors.git) is a mirror of the google archive on Github,
+you need *git lfs* to be able to clone it.
+- [Google Code Archive](https://code.google.com/archive/p/word2vec/)
+- [Google Drive](https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit)
+
+
 # Where did the code come from?
 The main script `embedding_metrices.py` is adapted from [hed-dlg-truncated](https://github.com/julianser/hed-dlg-truncated).
 Thanks for their great script!
