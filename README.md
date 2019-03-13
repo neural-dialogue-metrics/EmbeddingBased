@@ -49,7 +49,8 @@ You can install these deps with conda:
 Or simply create a new environment for this repository:
 
     conda env create -n <env> -f ./environment.yml
-
+    conda activate -n <env>
+    
 # Usage
 
     python embedding_metrics.py path_to_ground_truth.txt path_to_predictions.txt path_to_embeddings.bin
