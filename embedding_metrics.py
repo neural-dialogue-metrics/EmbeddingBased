@@ -28,7 +28,6 @@ Bootstrapping Dialog Systems with Word Embeddings. G. Forgues, J. Pineau, J. Lar
 __docformat__ = 'restructedtext en'
 __authors__ = ("Chia-Wei Liu", "Iulian Vlad Serban")
 
-from random import randint
 from gensim.models import KeyedVectors
 import numpy as np
 import argparse
