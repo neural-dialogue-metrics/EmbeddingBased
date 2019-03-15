@@ -46,7 +46,7 @@ def greedy_score(fileone, filetwo, w2v):
     f2 = open(filetwo, 'r')
     r1 = f1.readlines()
     r2 = f2.readlines()
-    dim = w2v.layer1_size  # embedding dimensions
+    dim = w2v.vector_size  # embedding dimensions
 
     scores = []
 
@@ -142,7 +142,7 @@ def average(fileone, filetwo, w2v):
     f2 = open(filetwo, 'r')
     r1 = f1.readlines()
     r2 = f2.readlines()
-    dim = w2v.layer1_size  # dimension of embeddings
+    dim = w2v.vector_size  # dimension of embeddings
 
     scores = []
 
