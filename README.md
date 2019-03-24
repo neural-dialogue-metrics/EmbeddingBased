@@ -27,7 +27,9 @@ The same procedure is performed on the (target, source) pair and the final resul
 - Vector Extrema, use a different way to generate a sentence representation from its constitute word embeddings.
 For each dimension of the word vectors, the extrema value is selected as below:
 ```
-    Extrema(i, embeddings) = max(abs(x) for x in embeddings[i])
+    Min[i] = min(x for x in embeddings[i])  # Minimum of the i dimension.
+    Max[i] = max(x for x in embeddings[i])  # Maximum of the i dimension.
+    Extrema[i] = max(abs(Min[i]), Max[i])  # If the absolute of Min is large we take it. Otherwise take Max.
 ```
 
 The sentence vector is then made up of these extrema values from all dimensions:
@@ -46,10 +48,6 @@ You can install these deps with conda:
 
     conda create --name <env> --file ./package-list.txt
     
-Or simply create a new environment for this repository:
-
-    conda env create -n <env> -f ./environment.yml
-    conda activate -n <env>
     
 # Usage
 
