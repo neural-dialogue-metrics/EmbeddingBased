@@ -53,7 +53,8 @@ def greedy_score(fileone, filetwo, w2v):
 
         o /= float(x_count)
         scores.append(o)
-
+    f1.close()
+    f2.close()
     return np.asarray(scores)
 
 
@@ -111,6 +112,8 @@ def extrema_score(fileone, filetwo, w2v):
         scores.append(o)
 
     scores = np.asarray(scores)
+    f1.close()
+    f2.close()
     return np.mean(scores), 1.96 * np.std(scores) / float(len(scores)), np.std(scores)
 
 
@@ -151,4 +154,6 @@ def average_score(fileone, filetwo, w2v):
         scores.append(o)
 
     scores = np.asarray(scores)
+    f1.close()
+    f2.close()
     return np.mean(scores), 1.96 * np.std(scores) / float(len(scores)), np.std(scores)

@@ -10,6 +10,8 @@ __all__ = [
     "average_corpus_level",
     "extrema_sentence_level",
     "extrema_corpus_level",
+    "greedy_match_corpus_level",
+    "greedy_match_sentence_level",
 ]
 
 _EPSILON = 0.00000000001
@@ -169,11 +171,15 @@ def extrema_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
             scores.append(0)
             continue
 
-        value = _cosine_similarity(_get_extrema(hypothesis), _get_extrema(reference))
+        value = _cosine_similarity(_get_extrema(X), _get_extrema(Y))
         scores.append(value)
 
     return _compute_statistics(scores)
 
 
 def greedy_match_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
+    pass
+
+
+def greedy_match_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
     pass
