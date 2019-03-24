@@ -1,8 +1,10 @@
 from setuptools import setup
 
+__version__ = '0.2.0'
+
 setup(
     name='EmbeddingBased',
-    version='0.1',
+    version=__version__,
     description='Embedding-based metrics for machine translation',
     url='https://github.com/neural-dialogue-metrics/EmbeddingBased.git',
     author='cgsdfc',
@@ -13,7 +15,7 @@ setup(
         'computational linguistics',
         'machine translation',
     ],
-    scripts=['embedding_metrics.py', 'make_testdata.py'],
+    scripts=['scripts/embedding_metrics.py', ],
     packages=[
         'embedding_based',
         'embedding_based.tests',
@@ -25,7 +27,7 @@ setup(
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: GPL-v3',
         'Programming Language :: Python :: 3',
-        'Topic :: Text Processing :: Linguistic'
+        'Topic :: Text Processing :: Linguistic',
     ],
     license='LICENCE.txt',
     long_description=open('README.md').read(),

@@ -1,7 +1,45 @@
 """
-The origin implementation.
+Word embedding based evaluation metrics for dialogue.
+
+This method implements three evaluation metrics based on Word2Vec word embeddings, which compare a target utterance
+with a model utterance:
+
+1) Computing cosine-similarity between the mean word embeddings of the target utterance and
+of the model utterance
+2) Computing greedy matching between word embeddings of target utterance and model utterance (
+Rus et al., 2012)
+3) Computing word embedding extrema scores (Forgues et al., 2014)
+
+We believe that these metrics are suitable for evaluating dialogue systems.
+
+Example run:
+
+    python embedding_metrics.py path_to_ground_truth.txt path_to_predictions.txt path_to_embeddings.bin
+
+The script assumes one example per line (e.g. one dialogue or one sentence per line), where line n in
+'path_to_ground_truth.txt' matches that of line n in 'path_to_predictions.txt'.
+
+NOTE: The metrics are not symmetric w.r.t. the input sequences.
+      Therefore, DO NOT swap the ground truths with the predicted responses.
+
+References:
+
+A Comparison of Greedy and Optimal Assessment of Natural Language Student Input Word Similarity Metrics Using Word to
+Word Similarity Metrics. Vasile Rus, Mihai Lintean. 2012. Proceedings of the Seventh Workshop on Building Educational
+Applications Using NLP, NAACL 2012.
+
+Bootstrapping Dialog Systems with Word Embeddings. G. Forgues, J. Pineau, J. Larcheveque, R. Tremblay. 2014. Workshop
+on Modern Machine Learning and Natural Language Processing, NIPS 2014.
 """
+from __future__ import division
+from __future__ import absolute_import
+from __future__ import unicode_literals
+from __future__ import print_function
+
 import numpy as np
+
+__docformat__ = 'restructedtext en'
+__authors__ = ("Chia-Wei Liu", "Iulian Vlad Serban")
 
 __all__ = [
     "average_score",
