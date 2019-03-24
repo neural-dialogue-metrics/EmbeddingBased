@@ -178,12 +178,62 @@ def extrema_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
 
 
 def _greedy_match(a, b):
-    pass
+    """
+    Perform the greedy match on two list of word vectors.
+    See photos/greedy matching.png.
+
+    :param a: a list of word vectors.
+    :param b: a list of word vectors.
+    :return: The greedy-matched value.
+    """
+    sum_max_cosine = sum(
+        max(
+            _cosine_similarity(a_i, b_i) for b_i in b
+        ) for a_i in a
+    )
+    return sum_max_cosine / len(a)
+
+
+def _greedy_average(a, b):
+    """
+    Compute the average of greedy matching a on b and b on a.
+
+    :param a: a list of word vectors.
+    :param b: a list of word vectors.
+    :return: The averaged greedy-matched value.
+    """
+    return np.mean([_greedy_match(*args) for args in ((a, b), (b, a))])
 
 
 def greedy_match_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
-    pass
+    """
+    Compute Greedy Matching on sentence level.
+
+    :param hypothesis_sentence:
+    :param reference_sentence:
+    :param embeddings:
+    :return:
+    """
+    hyp = _map_to_embeddings(hypothesis_sentence, embeddings)
+    ref = _map_to_embeddings(reference_sentence, embeddings)
+    return _greedy_average(hyp, ref)
 
 
 def greedy_match_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
-    pass
+    """
+    Compute Greedy Matching on corpus level.
+
+    :param hypothesis_corpus:
+    :param reference_corpus:
+    :param embeddings:
+    :return:
+    """
+    scores = []
+    for hypothesis, reference in zip(hypothesis_corpus, reference_corpus):
+        X = _map_to_embeddings(hypothesis, embeddings)
+        Y = _map_to_embeddings(reference, embeddings)
+        if len(X) == 0 or len(Y) == 0:
+            scores.append(0)
+            continue
+        scores.append(_greedy_average(X, Y))
+    return _compute_statistics(scores)

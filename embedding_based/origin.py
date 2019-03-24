@@ -6,19 +6,19 @@ import numpy as np
 __all__ = [
     "average_score",
     "extrema_score",
-    "greedy_score",
+    "greedy_match_score",
 ]
 
 
-def greedy_match(fileone, filetwo, w2v):
-    res1 = greedy_score(fileone, filetwo, w2v)
-    res2 = greedy_score(filetwo, fileone, w2v)
+def greedy_match_score(fileone, filetwo, w2v):
+    res1 = _greedy_score(fileone, filetwo, w2v)
+    res2 = _greedy_score(filetwo, fileone, w2v)
     res_sum = (res1 + res2) / 2.0
 
     return np.mean(res_sum), 1.96 * np.std(res_sum) / float(len(res_sum)), np.std(res_sum)
 
 
-def greedy_score(fileone, filetwo, w2v):
+def _greedy_score(fileone, filetwo, w2v):
     f1 = open(fileone, 'r')
     f2 = open(filetwo, 'r')
     r1 = f1.readlines()
@@ -30,7 +30,6 @@ def greedy_score(fileone, filetwo, w2v):
     for i in range(len(r1)):
         tokens1 = r1[i].strip().split(" ")
         tokens2 = r2[i].strip().split(" ")
-        X = np.zeros((dim,))
         y_count = 0
         x_count = 0
         o = 0.0

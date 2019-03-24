@@ -1,23 +1,14 @@
 import unittest
 import numpy as np
 
-from embedding_based.metrics import _cosine_similarity, _map_to_embeddings
-from embedding_based.metrics import _embedding_sum
-from embedding_based.metrics import _get_average
-from embedding_based.metrics import _get_extrema
-
-from embedding_based.metrics import extrema_sentence_level
-from embedding_based.metrics import extrema_corpus_level
+from embedding_based.metrics import _cosine_similarity
+from embedding_based.metrics import _map_to_embeddings
 
 from embedding_based.tests import EMBEDDINGS
-from embedding_based.tests import GROUND_TRUTH
-from embedding_based.tests import PREDICTED
-
 from embedding_based.utils import load_word2vec_binary
-from embedding_based.utils import load_corpus_from_file
 
 
-class TestMetrics(unittest.TestCase):
+class TestMetricHelpers(unittest.TestCase):
     embeddings = load_word2vec_binary(EMBEDDINGS)
 
     def test_cosine_similarity(self):
@@ -33,3 +24,6 @@ class TestMetrics(unittest.TestCase):
             _cosine_similarity(identity, orthogonal), 0.0
         )
 
+    def test_map_to_embeddings(self):
+        self.assertTrue(len(_map_to_embeddings(['foo', 'bar'], self.embeddings)) == 0)
+        self.assertTrue(len(_map_to_embeddings(['computer', 'trees', 'graph'], self.embeddings)) == 3)
