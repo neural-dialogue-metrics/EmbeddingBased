@@ -177,6 +177,10 @@ def extrema_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
     return _compute_statistics(scores)
 
 
+def _greedy_match(a, b):
+    pass
+
+
 def greedy_match_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
     pass
 
