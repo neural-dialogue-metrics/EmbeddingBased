@@ -18,7 +18,7 @@ following the pseudo code:
 ```
     SumMaxCosine(source, target) = sum(max(cosine_similarity(s, t) for s in source) for t in target) / len(source)
 ```
-    
+
 The same procedure is performed on the (target, source) pair and the final result is the average_score of both, namely:
 ```
     GreedyMacthing(source, target) = (SumMaxCosine(source, target) + SumMaxCosine(target, source)) / 2
@@ -42,12 +42,7 @@ Finally the score is obtained by taking cosine similarity of two `SentVec`.
 
 # Dependencies
 - Python 3.6
-- gensim 3.4.0
-
-You can install these deps with conda:
-
-    conda create --name <env> --file ./package-list.txt
-    
+- gensim 3.4.0 
     
 # Usage
 
