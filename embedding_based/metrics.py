@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from __future__ import print_function
 
 import numpy as np
+import collections
 
 __all__ = [
     "average_sentence_level",
@@ -16,6 +17,12 @@ __all__ = [
 
 _EPSILON = 0.00000000001
 
+# See https://en.wikipedia.org/wiki/1.96 for details of this magic number.
+_95_CI_DEVIATE = 1.96
+
+CorpusLevelScore = collections.namedtuple('CorpusLevelScore',
+                                          ['mean', 'confidence_interval', 'standard_deviation'])
+
 
 def _compute_statistics(scores):
     """
@@ -24,9 +31,13 @@ def _compute_statistics(scores):
     The function combines them by mean and standard derivation.
 
     :param scores: a list of float.
-    :return: a 3-tuple: mean, <unk>, standard derivation.
+    :return: a CorpusLevelScore.
     """
-    return np.mean(scores), 1.96 * np.std(scores) / len(scores), np.std(scores)
+    return CorpusLevelScore(
+        mean=np.mean(scores),
+        confidence_interval=_95_CI_DEVIATE * np.std(scores) / len(scores),
+        standard_deviation=np.std(scores),
+    )
 
 
 def _cosine_similarity(a, b):
