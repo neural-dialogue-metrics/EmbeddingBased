@@ -5,6 +5,13 @@ from __future__ import print_function
 
 import numpy as np
 
+__all__ = [
+    "average_sentence_level",
+    "average_corpus_level",
+    "extrema_sentence_level",
+    "extrema_corpus_level",
+]
+
 _EPSILON = 0.00000000001
 
 
@@ -23,6 +30,7 @@ def _compute_statistics(scores):
 def _cosine_similarity(a, b):
     """
     Return the cosine similarity of two vector a and b.
+
     :param a: ndarray of 1D.
     :param b: ndarray of 1D.
     :return: float.
@@ -33,6 +41,7 @@ def _cosine_similarity(a, b):
 def _embedding_sum(sentence, embeddings):
     """
     Return the sum of embeddings of words in sentence.
+
     :param sentence: a list of tokens.
     :param embeddings: a KeyedVectors.
     :return: a 1D ndarray of len `embeddings.vector_size`.
@@ -52,6 +61,7 @@ def _get_average(sentence, embeddings):
 def average_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
     """
     Compute Average on sentence level.
+
     :param hypothesis_sentence:
     :param reference_sentence:
     :param embeddings:
@@ -66,6 +76,7 @@ def average_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
 def average_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
     """
     Compute Average on corpus level.
+
     :param hypothesis_corpus:
     :param reference_corpus:
     :param embeddings:
@@ -103,19 +114,28 @@ def _get_extrema(vectors):
     """
     max_values = np.max(vectors, axis=0)
     min_values = np.min(vectors, axis=0)
-    return np.array(
+    return np.array([
         min_v if np.abs(min_v) > max_v else max_v
         for min_v, max_v in zip(min_values, max_values)
-    )
+    ])
 
 
 def _map_to_embeddings(words, embeddings):
+    """
+    Map each word in words to its embedding skipping any OOV words.
+    Thus the dimension of words may not match that of the returned list.
+
+    :param words: a list of strings.
+    :param embeddings: a gensim KeyedVectors.
+    :return:  a list of ndarrays.
+    """
     return [embeddings[word] for word in words if word in embeddings]
 
 
 def extrema_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
     """
     Compute Extrema on sentence level.
+
     :param hypothesis_sentence:
     :param reference_sentence:
     :param embeddings:

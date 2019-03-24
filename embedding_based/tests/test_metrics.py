@@ -1,13 +1,20 @@
 import unittest
 import numpy as np
 
-from embedding_based.metrics import _cosine_similarity
+from embedding_based.metrics import _cosine_similarity, _map_to_embeddings
 from embedding_based.metrics import _embedding_sum
 from embedding_based.metrics import _get_average
+from embedding_based.metrics import _get_extrema
+
 from embedding_based.metrics import average_sentence_level
+from embedding_based.metrics import average_corpus_level
 
 from embedding_based.tests import EMBEDDINGS
+from embedding_based.tests import GROUND_TRUTH
+from embedding_based.tests import PREDICTED
+
 from embedding_based.utils import load_word2vec_binary
+from embedding_based.utils import load_corpus_from_file
 
 
 class TestMetrics(unittest.TestCase):
@@ -40,14 +47,10 @@ class TestMetrics(unittest.TestCase):
         sentence = ['human', 'computer', 'trees']
         average = _get_average(sentence, self.embeddings)
         self.assertAlmostEqual(
-            np.linalg.norm(average), 1.0, msg='average is normalized to unit vector'
+            np.linalg.norm(average), 1.0, msg='average_score is normalized to unit vector'
         )
 
     def test_average_sentence_level(self):
-        """
-        More similar sentence pair should have a higher score.
-        :return:
-        """
         score_1 = average_sentence_level(
             'computer computer trees graph'.split(),
             'system time survey eps'.split(),
@@ -58,4 +61,29 @@ class TestMetrics(unittest.TestCase):
             'computer computer graph graph'.split(),
             self.embeddings,
         )
-        self.assertGreaterEqual(score_2, score_1)
+        self.assertGreaterEqual(score_2, score_1,
+                                msg='More similar sentence pair should have a higher score.')
+
+    def test_average_corpus_level(self):
+        hypothesis_corpus = load_corpus_from_file(PREDICTED)
+        reference_corpus = load_corpus_from_file(GROUND_TRUTH)
+        score = average_corpus_level(hypothesis_corpus, reference_corpus, self.embeddings)
+        self.assertAlmostEqual(score[0], 1.0, msg="""
+        since our predicted is a shuffle of ground truth and average_score ignores order, the average_score of them must equal.
+        """)
+
+    def test_get_extrema(self):
+        vectors = np.array([
+            [1.0, 2.0, 3.0],
+            [2.0, -3.0, -2.0],
+        ])
+        extrema = np.array([2.0, -3.0, 3.0])
+        expected = np.abs(_get_extrema(vectors) - extrema) < 1e-5
+        self.assertTrue(expected.all())
+
+    def test_map_to_embeddings(self):
+        self.assertTrue(len(_map_to_embeddings(['foo', 'bar'], self.embeddings)) == 0)
+        self.assertTrue(len(_map_to_embeddings(['computer', 'trees', 'graph'], self.embeddings)) == 3)
+
+    def test_extrema_sentence_level(self):
+        pass

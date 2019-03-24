@@ -4,7 +4,7 @@ based on some pre-trained word vectors. These word vectors are trained to repres
 meanings of words using models like *Skip-grams*, *CBOW (Continuous Bag of Words)* or *Glove (Global Vector)*.
 They can also be applied to evaluation of dialogue systems.
 This repository contains code to compute these embedding-based metrics:
-- Average Score, where the average of all word vectors composing a sentence is taken into account as
+- Average Score, where the average_score of all word vectors composing a sentence is taken into account as
 a summary of a sentence and consine similarity of these averages is used as the final score.
 ```
     Average(sent) = sum(sent) / norm(sent)
@@ -19,7 +19,7 @@ following the pseudo code:
     SumMaxCosine(source, target) = sum(max(cosine_similarity(s, t) for s in source) for t in target) / len(source)
 ```
     
-The same procedure is performed on the (target, source) pair and the final result is the average of both, namely:
+The same procedure is performed on the (target, source) pair and the final result is the average_score of both, namely:
 ```
     GreedyMacthing(source, target) = (SumMaxCosine(source, target) + SumMaxCosine(target, source)) / 2
 ```

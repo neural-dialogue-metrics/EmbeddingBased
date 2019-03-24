@@ -14,6 +14,13 @@ setup(
         'machine translation',
     ],
     scripts=['embedding_metrics.py'],
+    packages=[
+        'embedding_based',
+        'embedding_based.tests',
+    ],
+    package_data={
+        'embedding_based.tests': ['data/*'],
+    },
     classifiers=[
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: GPL-v3',
@@ -22,5 +29,5 @@ setup(
     ],
     license='LICENCE.txt',
     long_description=open('README.md').read(),
-    install_requires=['gensim', 'numpy']
+    install_requires=['gensim', 'numpy'],
 )
