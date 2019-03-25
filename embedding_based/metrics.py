@@ -7,6 +7,7 @@ import numpy as np
 import collections
 
 __all__ = [
+    "CorpusLevelScore",
     "average_sentence_level",
     "average_corpus_level",
     "extrema_sentence_level",
