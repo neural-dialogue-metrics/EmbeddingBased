@@ -39,7 +39,18 @@ The sentence vector is then made up of these extrema values from all dimensions:
     
 Finally the score is obtained by taking cosine similarity of two `SentVec`.
 
+# Papers mentioning the metrics
+It is used as one of the metrics to evaluate the VHRED model proposed in Serban et al (2015 a), among others (the average length
+of response, the word entropy and the utterance entropy w.r.t the unigram entropy of the training corpus and human evaluation).
+In *section 4.3 Results of Metric-based Evaluation*, settings of how the embedding based metrics are used and their interpretation
+are detailed, along with evaluation results.
 
+In the *How NOT to evaluate your dialogue system* paper, the authors discuss the embedding based metrics in
+*section 3.2 Embedding-based Metrics*. They conclude that the embedding metrics, like other overlap-based metrics, do not correlate with human evaluation (not at all on Ubuntu Dialogue Corpus and weakly on Twitter Corpus).
+ 
+ In spit of this, Serban et al. interpret the metric as measuring *top similarity*.
+ They then show that the HRED and VHRED models capture the topic in the context appropriately.
+ 
 # Dependencies
 - Python 3.6
 - gensim 3.4.0 
@@ -66,3 +77,5 @@ Thanks for their great script!
 # References
 [1] Section 3.1 of How NOT To Evaluate Your Dialogue System: An Empirical Study of
 Unsupervised Evaluation Metrics for Dialogue Response Generation
+
+[2] A Hierarchical Latent Variable Encoder-Decoder Model for Generating Dialogues. Serban et al. (2015 a)
