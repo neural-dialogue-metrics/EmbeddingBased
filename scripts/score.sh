@@ -6,9 +6,8 @@ GT=/home/cgsdfc/UbuntuDialogueCorpus/ResponseContextPairs/raw_testing_responses.
 PREFIX=/home/cgsdfc/Result/Test
 CONFIG="-A -X -G"
 
-embedding_metrics.py
+python scripts/embedding_metrics.py \
     -embeddings $EMB \
     -predicted $PRED \
     -ground_truth $GT \
     -p $PREFIX
-
