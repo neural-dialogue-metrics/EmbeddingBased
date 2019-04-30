@@ -25,7 +25,7 @@ CorpusLevelScore = collections.namedtuple('CorpusLevelScore',
                                           ['mean', 'confidence_interval', 'standard_deviation'])
 
 
-def _compute_statistics(scores):
+def _compute_corpus_score(scores):
     """
     Compute various statistics from a list of scores.
     The scores come from evaluating a list of sentence pairs.
@@ -116,7 +116,7 @@ def average_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
         Y /= np.linalg.norm(Y)
         scores.append(_cosine_similarity(X, Y))
 
-    return _compute_statistics(scores)
+    return _compute_corpus_score(scores)
 
 
 def _get_extrema(vectors):
@@ -186,7 +186,7 @@ def extrema_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
         value = _cosine_similarity(_get_extrema(X), _get_extrema(Y))
         scores.append(value)
 
-    return _compute_statistics(scores)
+    return _compute_corpus_score(scores)
 
 
 def _greedy_match(a, b):
@@ -248,4 +248,4 @@ def greedy_match_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
             scores.append(0)
             continue
         scores.append(_greedy_average(X, Y))
-    return _compute_statistics(scores)
+    return _compute_corpus_score(scores)
