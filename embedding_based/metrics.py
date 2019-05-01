@@ -41,7 +41,7 @@ def _compute_corpus_score(scores):
     )
 
 
-def _cosine_similarity(a, b):
+def _cos_sim(a, b):
     """
     Return the cosine similarity of two vector a and b.
 
@@ -60,10 +60,10 @@ def _embedding_sum(sentence, embeddings):
     :param embeddings: a KeyedVectors.
     :return: a 1D ndarray of len `embeddings.vector_size`.
     """
-    total = sum(embeddings[word] for word in sentence if word in embeddings)
+    total = sum(_map_to_embeddings(sentence, embeddings))
     if np.linalg.norm(total) < _EPSILON:
         # If none of the words has embeddings, return all holes.
-        return np.zeros((embeddings.vector_size,))
+        return np.zeros(embeddings.vector_size)
     return total
 
 
@@ -81,7 +81,7 @@ def average_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
     :param embeddings:
     :return:
     """
-    return _cosine_similarity(
+    return _cos_sim(
         a=_get_average(hypothesis_sentence, embeddings),
         b=_get_average(reference_sentence, embeddings),
     )
@@ -114,7 +114,7 @@ def average_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
         # Normalize to unit vectors.
         X /= np.linalg.norm(X)
         Y /= np.linalg.norm(Y)
-        scores.append(_cosine_similarity(X, Y))
+        scores.append(_cos_sim(X, Y))
 
     return _compute_corpus_score(scores)
 
@@ -136,14 +136,21 @@ def _get_extrema(vectors):
 
 def _map_to_embeddings(words, embeddings):
     """
-    Map each word in words to its embedding skipping any OOV words.
+    Map each word in words to its embedding. OOV word maps to zeros.
     Thus the dimension of words may not match that of the returned list.
 
     :param words: a list of strings.
     :param embeddings: a gensim KeyedVectors.
     :return:  a list of ndarrays.
     """
-    return [embeddings[word] for word in words if word in embeddings]
+
+    def get(word):
+        try:
+            return embeddings[word]
+        except KeyError:
+            return np.zeros(embeddings.vector_size)
+
+    return list(map(get, words))
 
 
 def extrema_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
@@ -157,7 +164,7 @@ def extrema_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
     """
     hypothesis = _map_to_embeddings(hypothesis_sentence, embeddings)
     reference = _map_to_embeddings(reference_sentence, embeddings)
-    return _cosine_similarity(
+    return _cos_sim(
         a=_get_extrema(hypothesis),
         b=_get_extrema(reference),
     )
@@ -183,7 +190,7 @@ def extrema_corpus_level(hypothesis_corpus, reference_corpus, embeddings):
             scores.append(0)
             continue
 
-        value = _cosine_similarity(_get_extrema(X), _get_extrema(Y))
+        value = _cos_sim(_get_extrema(X), _get_extrema(Y))
         scores.append(value)
 
     return _compute_corpus_score(scores)
@@ -200,7 +207,7 @@ def _greedy_match(a, b):
     """
     sum_max_cosine = sum(
         max(
-            _cosine_similarity(a_i, b_i) for b_i in b
+            _cos_sim(a_i, b_i) for b_i in b
         ) for a_i in a
     )
     return sum_max_cosine / len(a)

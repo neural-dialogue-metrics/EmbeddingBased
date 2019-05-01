@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 
-from embedding_based.metrics import _cosine_similarity
+from embedding_based.metrics import _cos_sim
 from embedding_based.metrics import _map_to_embeddings
 
 from embedding_based.tests import EMBEDDINGS
@@ -14,14 +14,14 @@ class TestMetricHelpers(unittest.TestCase):
     def test_cosine_similarity(self):
         identity = np.array([1, 2, 3])
         self.assertAlmostEqual(
-            _cosine_similarity(identity, identity), 1.0
+            _cos_sim(identity, identity), 1.0
         )
         self.assertAlmostEqual(
-            _cosine_similarity(identity, -identity), -1.0
+            _cos_sim(identity, -identity), -1.0
         )
         orthogonal = np.array([4, 1, -2])
         self.assertAlmostEqual(
-            _cosine_similarity(identity, orthogonal), 0.0
+            _cos_sim(identity, orthogonal), 0.0
         )
 
     def test_map_to_embeddings(self):
