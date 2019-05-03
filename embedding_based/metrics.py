@@ -49,6 +49,11 @@ def _cos_sim(a, b):
     :param b: ndarray of 1D.
     :return: float.
     """
+    a_norm = np.linalg.norm(a)
+    b_norm = np.linalg.norm(b)
+    if a_norm < _EPSILON or b_norm < _EPSILON:
+        # zero in, zero out.
+        return 0
     return np.dot(a, b) / np.linalg.norm(a) / np.linalg.norm(b)
 
 
@@ -61,15 +66,15 @@ def _embedding_sum(sentence, embeddings):
     :return: a 1D ndarray of len `embeddings.vector_size`.
     """
     total = sum(_map_to_embeddings(sentence, embeddings))
-    if np.linalg.norm(total) < _EPSILON:
-        # If none of the words has embeddings, return all holes.
-        return np.zeros(embeddings.vector_size)
     return total
 
 
 def _get_average(sentence, embeddings):
     total = _embedding_sum(sentence, embeddings)
-    return total / np.linalg.norm(total)
+    total_norm = np.linalg.norm(total)
+    if total_norm < _EPSILON:
+        return np.zeros(embeddings.vector_size)
+    return total / total_norm
 
 
 def average_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
@@ -210,6 +215,8 @@ def _greedy_match(a, b):
             _cos_sim(a_i, b_i) for b_i in b
         ) for a_i in a
     )
+    if not len(a):
+        raise ValueError('empty vector')
     return sum_max_cosine / len(a)
 
 
@@ -221,7 +228,8 @@ def _greedy_average(a, b):
     :param b: a list of word vectors.
     :return: The averaged greedy-matched value.
     """
-    return np.mean([_greedy_match(*args) for args in ((a, b), (b, a))])
+    # return np.mean([_greedy_match(*args) for args in ((a, b), (b, a))])
+    return (_greedy_match(a, b) + _greedy_match(b, a)) / 2
 
 
 def greedy_match_sentence_level(hypothesis_sentence, reference_sentence, embeddings):
