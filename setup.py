@@ -1,6 +1,6 @@
 from setuptools import setup
 
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 
 setup(
     name='EmbeddingBased',
@@ -15,7 +15,7 @@ setup(
         'computational linguistics',
         'machine translation',
     ],
-    scripts=['scripts/embedding_metrics.py', ],
+    scripts=['embedding_metrics.py', ],
     packages=[
         'embedding_based',
         'embedding_based.tests',
