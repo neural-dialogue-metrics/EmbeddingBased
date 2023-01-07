@@ -1,3 +1,25 @@
+# MIT License
+#
+# Copyright (c) 2019 Cong Feng.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 from __future__ import division
 from __future__ import absolute_import
 from __future__ import unicode_literals
@@ -21,8 +43,9 @@ _EPSILON = 0.00000000001
 # See https://en.wikipedia.org/wiki/1.96 for details of this magic number.
 _95_CI_DEVIATE = 1.96
 
-CorpusLevelScore = collections.namedtuple('CorpusLevelScore',
-                                          ['mean', 'confidence_interval', 'standard_deviation'])
+CorpusLevelScore = collections.namedtuple(
+    "CorpusLevelScore", ["mean", "confidence_interval", "standard_deviation"]
+)
 
 
 def _compute_corpus_score(scores):
@@ -133,10 +156,12 @@ def _get_extrema(vectors):
     """
     max_values = np.max(vectors, axis=0)
     min_values = np.min(vectors, axis=0)
-    return np.array([
-        min_v if np.abs(min_v) > max_v else max_v
-        for min_v, max_v in zip(min_values, max_values)
-    ])
+    return np.array(
+        [
+            min_v if np.abs(min_v) > max_v else max_v
+            for min_v, max_v in zip(min_values, max_values)
+        ]
+    )
 
 
 def _map_to_embeddings(words, embeddings):
@@ -210,13 +235,9 @@ def _greedy_match(a, b):
     :param b: a list of word vectors.
     :return: The greedy-matched value.
     """
-    sum_max_cosine = sum(
-        max(
-            _cos_sim(a_i, b_i) for b_i in b
-        ) for a_i in a
-    )
+    sum_max_cosine = sum(max(_cos_sim(a_i, b_i) for b_i in b) for a_i in a)
     if not len(a):
-        raise ValueError('empty vector')
+        raise ValueError("empty vector")
     return sum_max_cosine / len(a)
 
 

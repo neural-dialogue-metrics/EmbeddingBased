@@ -1,3 +1,25 @@
+# MIT License
+#
+# Copyright (c) 2019 Cong Feng.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Word embedding based evaluation metrics for dialogue.
 
@@ -38,7 +60,7 @@ from __future__ import print_function
 
 import numpy as np
 
-__docformat__ = 'restructedtext en'
+__docformat__ = "restructedtext en"
 __authors__ = ("Chia-Wei Liu", "Iulian Vlad Serban")
 
 __all__ = [
@@ -53,12 +75,16 @@ def greedy_match_score(fileone, filetwo, w2v):
     res2 = _greedy_score(filetwo, fileone, w2v)
     res_sum = (res1 + res2) / 2.0
 
-    return np.mean(res_sum), 1.96 * np.std(res_sum) / float(len(res_sum)), np.std(res_sum)
+    return (
+        np.mean(res_sum),
+        1.96 * np.std(res_sum) / float(len(res_sum)),
+        np.std(res_sum),
+    )
 
 
 def _greedy_score(fileone, filetwo, w2v):
-    f1 = open(fileone, 'r')
-    f2 = open(filetwo, 'r')
+    f1 = open(fileone, "r")
+    f2 = open(filetwo, "r")
     r1 = f1.readlines()
     r2 = f2.readlines()
     dim = w2v.vector_size  # embedding dimensions
@@ -96,8 +122,8 @@ def _greedy_score(fileone, filetwo, w2v):
 
 
 def extrema_score(fileone, filetwo, w2v):
-    f1 = open(fileone, 'r')
-    f2 = open(filetwo, 'r')
+    f1 = open(fileone, "r")
+    f2 = open(filetwo, "r")
     r1 = f1.readlines()
     r2 = f2.readlines()
 
@@ -155,8 +181,8 @@ def extrema_score(fileone, filetwo, w2v):
 
 
 def average_score(fileone, filetwo, w2v):
-    f1 = open(fileone, 'r')
-    f2 = open(filetwo, 'r')
+    f1 = open(fileone, "r")
+    f2 = open(filetwo, "r")
     r1 = f1.readlines()
     r2 = f2.readlines()
     dim = w2v.vector_size  # dimension of embeddings

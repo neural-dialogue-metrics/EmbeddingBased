@@ -1,20 +1,14 @@
 # Embedding-based Metrics
-Embedding-based metrics are ways to evaluate semantic similarity between two sentences
-based on some pre-trained word vectors. These word vectors are trained to represent distributed
-meanings of words using models like *Skip-grams*, *CBOW (Continuous Bag of Words)* or *Glove (Global Vector)*.
-They can also be applied to evaluation of dialogue systems.
-This repository contains code to compute these embedding-based metrics:
-- Average Score, where the average_score of all word vectors composing a sentence is taken into account as
-a summary of a sentence and consine similarity of these averages is used as the final score.
+
+Embedding-based metrics are methods to evaluate the semantic similarity between two sentences based on some pre-trained word vectors. These word vectors are trained to represent distributed meanings of words using models like *Skip-grams*, *CBOW (Continuous Bag of Words)*, or *Glove (Global Vector)*. They can also be applied to the evaluation of dialogue systems. This repository contains code to compute these embedding-based metrics:
+
+- Average Score, where the average_score of all word vectors composing a sentence is taken into account as a summary of a sentence, and cosine similarity of these averages is used as the final score.
 ```
     Average(sent) = sum(sent) / norm(sent)
     AverageScore(source, target) = cosine_similarity(Average(source), Average(target))
 ```
 
-- Greedy Matching, as its name implies, it tries to find the maximum cosine similarity in a word-to-word basic, where
-each word of the source sentence is matched against all words of the target sentence to find the maximum consine similarity.
-It then sums up these maximum consine similarity for all words in a source sentence, normalized by the length of the source,
-following the pseudo code:
+- Greedy Matching, as its name implies, it tries to find the maximum cosine similarity in a word-to-word basic, where each word of the source sentence is matched against all words of the target sentence to find the maximum cosine similarity. It then sums up these maximum cosine similarity scores for all words in a source sentence, normalized by the length of the source, following the pseudocode:
 ```
     SumMaxCosine(source, target) = sum(max(cosine_similarity(s, t) for s in source) for t in target) / len(source)
 ```
@@ -24,8 +18,7 @@ The same procedure is performed on the (target, source) pair and the final resul
     GreedyMacthing(source, target) = (SumMaxCosine(source, target) + SumMaxCosine(target, source)) / 2
 ```
 
-- Vector Extrema, use a different way to generate a sentence representation from its constitute word embeddings.
-For each dimension of the word vectors, the extrema value is selected as below:
+- Vector Extrema, use a different way to generate a sentence representation from its constitute word embeddings. For each dimension of the word vectors, the extrema value is selected as below:
 ```
     Min[i] = min(x for x in embeddings[i])  # Minimum of the i dimension.
     Max[i] = max(x for x in embeddings[i])  # Maximum of the i dimension.
@@ -37,45 +30,39 @@ The sentence vector is then made up of these extrema values from all dimensions:
     SentVec[i] = Extrema(i, embeddings)
 ```
     
-Finally the score is obtained by taking cosine similarity of two `SentVec`.
+Finally, the score is obtained by taking the cosine similarities of two `SentVec`.
 
-# Papers mentioning the metrics
-It is used as one of the metrics to evaluate the VHRED model proposed in Serban et al (2015 a), among others (the average length
-of response, the word entropy and the utterance entropy w.r.t the unigram entropy of the training corpus and human evaluation).
-In *section 4.3 Results of Metric-based Evaluation*, settings of how the embedding based metrics are used and their interpretation
-are detailed, along with evaluation results.
+## Related Works
 
-In the *How NOT to evaluate your dialogue system* paper, the authors discuss the embedding based metrics in
-*section 3.2 Embedding-based Metrics*. They conclude that the embedding metrics, like other overlap-based metrics, do not correlate with human evaluation (not at all on Ubuntu Dialogue Corpus and weakly on Twitter Corpus).
+These metrics are used as one of the metrics to evaluate the VHRED model proposed in Serban et al (2015 a), among others (the average length of response, the word entropy, and the utterance entropy w.r.t the unigram entropy of the training corpus and human evaluation). In *section 4.3 Results of Metric-based Evaluation*, settings of how the embedding-based metrics are used and their interpretation are detailed, along with evaluation results.
+
+In the *How NOT to evaluate your dialogue system* paper, the authors discuss the embedding-based metrics in *section 3.2 Embedding-based Metrics*. They conclude that the embedding metrics, like other overlap-based metrics, do not correlate with human evaluation (not at all on Ubuntu Dialogue Corpus and weakly on Twitter Corpus). Despite this, Serban et al. interpret the metric as measuring *top similarity*. They then show that the HRED and VHRED models capture the topic in the context appropriately.
  
- In spit of this, Serban et al. interpret the metric as measuring *top similarity*.
- They then show that the HRED and VHRED models capture the topic in the context appropriately.
- 
-# Dependencies
+## Dependencies
+
 - Python 3.6
 - gensim 3.4.0 
     
-# Usage
+## Usage
 
     python embedding_metrics.py path_to_ground_truth.txt path_to_predictions.txt path_to_embeddings.bin
 
-The script assumes one example per line (e.g. one dialogue or one sentence per line).
-The embedding file should be in binary format as generated by the original word2vec tool from Google.
-If you find any problem loading your embedding, please refer to the [gensim document about the word2vec model](https://radimrehurek.com/gensim/models/word2vec.html).
+The script assumes one example per line (e.g. one dialogue or one sentence per line). The embedding file should be in binary format as generated by the original word2vec tool from Google. If you find any problem loading your embedding, please refer to the [gensim document about the word2vec model](https://radimrehurek.com/gensim/models/word2vec.html).
 
-# Recommended Word Embedding
+## Recommended Word Embedding
+
 The word embedding you are recommended to use is the *Word2Vec* vectors trained on the *Google News Corpus*.
 This is also recommended by the original repository. To download this pre-trained embedding easily, here are some useful links:
 - [Resource from Deeplearning4j](https://deeplearning4jblob.blob.core.windows.net/resources/wordvectors/GoogleNews-vectors-negative300.bin.gz)
 - [Google Code Archive](https://code.google.com/archive/p/word2vec/)
 - [Google Drive](https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit)
 
-# Acknowledgement
-The main script `embedding_metrices.py` is adapted from [hed-dlg-truncated](https://github.com/julianser/hed-dlg-truncated).
-Thanks for their great script!
+## Acknowledgment
 
-# References
-[1] Section 3.1 of How NOT To Evaluate Your Dialogue System: An Empirical Study of
-Unsupervised Evaluation Metrics for Dialogue Response Generation
+The main script `embedding_metrices.py` is adapted from [hed-dlg-truncated](https://github.com/julianser/hed-dlg-truncated). Thanks for their great script!
+
+# Reference
+
+[1] Section 3.1 of How NOT To Evaluate Your Dialogue System: An Empirical Study of Unsupervised Evaluation Metrics for Dialogue Response Generation
 
 [2] A Hierarchical Latent Variable Encoder-Decoder Model for Generating Dialogues. Serban et al. (2015 a)
