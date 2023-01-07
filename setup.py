@@ -37,7 +37,7 @@ setup(
         'computational linguistics',
         'machine translation',
     ],
-    scripts=['embedding_metrics.py', ],
+    scripts=['scripts/embedding_metrics.py', ],
     packages=[
         'embedding_based',
         'embedding_based.tests',
